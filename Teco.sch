@@ -1,4 +1,4 @@
-EESchema Schematic File Version 5
+EESchema Schematic File Version 4
 LIBS:Teco-cache
 EELAYER 29 0
 EELAYER END
@@ -325,12 +325,12 @@ F 3 "" H 9100 700 60  0000 C CNN
 	1    9100 700 
 	1    0    0    1   
 $EndComp
-Text Label 5200 1400 0    60   ~ 0
+Text Label 5250 1400 2    60   ~ 0
 AIN1
 NoConn ~ 4950 1500
-Text Label 5150 1600 0    60   ~ 0
+Text Label 5250 1600 2    60   ~ 0
 TXD
-Text Label 5150 1700 0    60   ~ 0
+Text Label 6050 1700 2    60   ~ 0
 RXD
 $Comp
 L Connectors_kl:CONN_6 XL3
@@ -702,12 +702,6 @@ Wire Wire Line
 Connection ~ 6350 3400
 Wire Wire Line
 	9100 700  9100 800 
-Wire Wire Line
-	4950 1400 5200 1400
-Wire Wire Line
-	5150 1700 4950 1700
-Wire Wire Line
-	4950 1600 5150 1600
 Wire Wire Line
 	10150 1700 10250 1700
 Wire Wire Line
@@ -1676,4 +1670,41 @@ Wire Wire Line
 	3400 7550 3350 7550
 Wire Wire Line
 	6000 7500 6150 7500
+$Comp
+L Tittar_kl:R R7
+U 1 1 5CBE8341
+P 5750 1300
+F 0 "R7" H 5681 1254 50  0000 R CNN
+F 1 "100k" H 5681 1345 50  0000 R CNN
+F 2 "Resistors:RES_0603" V 5830 1400 28  0001 C CNN
+F 3 "" V 5830 1150 60  0000 C CNN
+F 4 "0.5" V 5930 1250 60  0001 C CNN "Price"
+F 5 "2" V 6030 1350 60  0001 C CNN "SolderPoints"
+	1    5750 1300
+	1    0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR09
+U 1 1 5CBE834B
+P 5750 950
+F 0 "#PWR09" H 5840 930 30  0001 C CNN
+F 1 "GND" H 5750 870 30  0001 C CNN
+F 2 "" H 5750 950 60  0000 C CNN
+F 3 "" H 5750 950 60  0000 C CNN
+	1    5750 950 
+	1    0    0    1   
+$EndComp
+Wire Wire Line
+	5750 950  5750 1050
+Wire Wire Line
+	4950 1700 5750 1700
+Wire Wire Line
+	5750 1550 5750 1700
+Connection ~ 5750 1700
+Wire Wire Line
+	5750 1700 6050 1700
+Wire Wire Line
+	4950 1600 5250 1600
+Wire Wire Line
+	4950 1400 5250 1400
 $EndSCHEMATC
