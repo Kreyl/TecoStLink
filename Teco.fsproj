@@ -1,18 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Project xsi:noNamespaceSchemaLocation="Project.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<Version current="1"/>
-	<Format>Project</Format>
-	<Header>
-		<Program name="TopoR" version="6.2"/>
-		<GUID>{46151AC7-92F7-45F3-85E8-014838DAED23}</GUID>
-		<Annotation>Project file</Annotation>
-	</Header>
-	<Document>
-		<LocalLibrary />
-		<Pcb>
-			<File path=".\Teco.fsx" isopened="1"/>
-		</Pcb>
-		<ARouteSessions>
-		</ARouteSessions>
-	</Document>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--***************************************-->
+<!--   File    : Teco.fsproj               -->
+<!--   Format  : TopoR Project file        -->
+<!--   Version : 2                         -->
+<!--   Program : TopoR Lite 7.0.18344 Beta -->
+<!--   Date    : Saturday, April 28, 2018  -->
+<!--   Time    : 20:56                     -->
+<!--***************************************-->
+
+<Project>
+   <Version current="2"/>
+   <GUID>{15D0C1EA-9214-4531-8964-B028DB659EBA}</GUID>
+   <Documents>
+      <Section name="PCB" isExpanded="false">
+         <File path=".\Teco.fsx" isopened="1" dateChange="2018-04-28 20:20:53"/>
+      </Section>
+      <Section name="AutoRouting" isExpanded="false"/>
+   </Documents>
 </Project>

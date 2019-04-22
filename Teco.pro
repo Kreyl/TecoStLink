@@ -1,4 +1,4 @@
-update=27.04.2017 10:33:32
+update=08.02.2018 19:15:20
 version=1
 last_client=kicad
 [pcbnew]
@@ -25,16 +25,16 @@ version=1
 NetIExt=net
 [general]
 version=1
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceAjustPassiveValues=0
+LabSize=60
+ERC_TestSimilarLabels=1
 [eeschema]
 version=1
-LibDir=D:/Libs/Kicad
-[eeschema/libraries]
-LibName1=Connectors_kl
-LibName2=ESDProtection
-LibName3=pcb_details
-LibName4=power
-LibName5=Power_kl
-LibName6=st_kl
-LibName7=Switches
-LibName8=Tittar_kl
-LibName9=Transistors_kl
+LibDir=
