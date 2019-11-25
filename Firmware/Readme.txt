@@ -1,0 +1,1 @@
+64k.hex contains full firmware dump for STM32+Audio. Will not work until you upgrade it, even with same version.
