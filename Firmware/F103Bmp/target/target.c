@@ -161,10 +161,8 @@ target_s *target_attach(target_s *target, target_controller_s *controller)
 		target->tc->destroy_callback(target->tc, target);
 
 	target->tc = controller;
-	platform_target_clk_output_enable(true);
 
 	if (target->attach && !target->attach(target)) {
-		platform_target_clk_output_enable(false);
 		return NULL;
 	}
 
@@ -249,7 +247,6 @@ void target_detach(target_s *target)
 {
 	if (target->detach)
 		target->detach(target);
-	platform_target_clk_output_enable(false);
 	target->attached = false;
 #if PC_HOSTED == 1
 	platform_buffer_flush();

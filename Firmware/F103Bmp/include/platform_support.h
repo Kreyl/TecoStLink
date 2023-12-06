@@ -51,7 +51,7 @@ void platform_delay(uint32_t ms);
 extern bool connect_assert_nrst;
 uint32_t platform_target_voltage_sense(void);
 const char *platform_target_voltage(void);
-int platform_hwversion(void);
+//int platform_hwversion(void);
 void platform_nrst_set_val(bool assert);
 bool platform_nrst_get_val(void);
 bool platform_target_get_power(void);
@@ -60,14 +60,10 @@ void platform_request_boot(void);
 void platform_max_frequency_set(uint32_t frequency);
 uint32_t platform_max_frequency_get(void);
 
-void platform_target_clk_output_enable(bool enable);
-
-#if PC_HOSTED == 0
 bool platform_spi_init(spi_bus_e bus);
 bool platform_spi_deinit(spi_bus_e bus);
 
 bool platform_spi_chip_select(uint8_t device_select);
 uint8_t platform_spi_xfer(spi_bus_e bus, uint8_t value);
-#endif
 
 #endif /* INCLUDE_PLATFORM_SUPPORT_H */

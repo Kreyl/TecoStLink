@@ -39,7 +39,6 @@ static void jtagtap_cycle(bool tms, bool tdi, size_t clock_cycles);
 
 void jtagtap_init(void)
 {
-	platform_target_clk_output_enable(true);
 	TMS_SET_MODE();
 
 	jtag_proc.jtagtap_reset = jtagtap_reset;
@@ -58,14 +57,6 @@ void jtagtap_init(void)
 
 static void jtagtap_reset(void)
 {
-#ifdef TRST_PORT
-	if (platform_hwversion() == 0) {
-		gpio_clear(TRST_PORT, TRST_PIN);
-		for (volatile size_t i = 0; i < 10000U; i++)
-			continue;
-		gpio_set(TRST_PORT, TRST_PIN);
-	}
-#endif
 	jtagtap_soft_reset();
 }
 

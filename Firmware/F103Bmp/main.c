@@ -69,16 +69,8 @@ static void bmp_poll_loop(void)
 	gdb_main(pbuf, GDB_PACKET_BUFFER_SIZE, size);
 }
 
-//int main(int argc, char **argv)
-int main(void)
-{
-#if PC_HOSTED == 1
-	platform_init(argc, argv);
-#else
-//	(void)argc;
-//	(void)argv;
+int main(void) {
 	platform_init();
-#endif
 
 	while (true) {
 		volatile exception_s e;
@@ -91,10 +83,6 @@ int main(void)
 			gdb_outf("Uncaught exception: %s\n", e.msg);
 			morse("TARGET LOST.", true);
 		}
-#if PC_HOSTED == 1
-		if (shutdown_bmda)
-			break;
-#endif
 	}
 
 	target_list_free();

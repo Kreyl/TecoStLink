@@ -178,7 +178,7 @@ bool cmd_version(target_s *t, int argc, const char **argv)
 	DEBUG_WARN("License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\n");
 #else
 	gdb_out(BOARD_IDENT);
-	gdb_outf(", Hardware Version %d\n", platform_hwversion());
+	gdb_outf(", Hardware Version %d\n", 999);
 	gdb_out("Copyright (C) 2010-2023 Black Magic Debug Project\n");
 	gdb_out("License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\n");
 #endif
@@ -234,14 +234,12 @@ static bool cmd_jtag_scan(target_s *target, int argc, const char **argv)
 	}
 
 	if (!scan_result) {
-		platform_target_clk_output_enable(false);
 		platform_nrst_set_val(false);
 		gdb_out("JTAG device scan failed!\n");
 		return false;
 	}
 
 	cmd_targets(NULL, 0, NULL);
-	platform_target_clk_output_enable(false);
 	morse(NULL, false);
 	return true;
 }
@@ -277,14 +275,12 @@ bool cmd_swd_scan(target_s *target, int argc, const char **argv)
 	}
 
 	if (!scan_result) {
-		platform_target_clk_output_enable(false);
 		platform_nrst_set_val(false);
 		gdb_out("SWD scan failed!\n");
 		return false;
 	}
 
 	cmd_targets(NULL, 0, NULL);
-	platform_target_clk_output_enable(false);
 	morse(NULL, false);
 	return true;
 }
@@ -332,14 +328,12 @@ bool cmd_auto_scan(target_s *t, int argc, const char **argv)
 	}
 
 	if (!scan_result) {
-		platform_target_clk_output_enable(false);
 		platform_nrst_set_val(false);
 		gdb_out("auto scan failed!\n");
 		return false;
 	}
 
 	cmd_targets(NULL, 0, NULL);
-	platform_target_clk_output_enable(false);
 	morse(NULL, false);
 	return true;
 }

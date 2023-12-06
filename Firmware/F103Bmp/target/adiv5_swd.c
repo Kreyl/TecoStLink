@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* 
+/*
  * This file implements the SWD specific functions of the
  * ARM Debug Interface v5 Architecture Specification, ARM doc IHI0031A.
  */
@@ -163,16 +163,7 @@ bool adiv5_swd_scan(const uint32_t targetid)
 	dp->low_access = firmware_swdp_low_access;
 	dp->abort = firmware_swdp_abort;
 
-#if PC_HOSTED == 0
 	swdptap_init();
-#else
-	if (!bmda_swd_dp_init(dp)) {
-		free(dp);
-		return false;
-	}
-#endif
-
-	platform_target_clk_output_enable(true);
 
 	/* Switch out of dormant state */
 	dormant_to_swd_sequence();
