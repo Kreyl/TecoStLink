@@ -20,7 +20,6 @@
  */
 #include "general.h"
 #include "platform.h"
-#include "morse.h"
 #include "usb.h"
 
 #include <libopencm3/cm3/systick.h>
@@ -32,7 +31,6 @@ bool running_status = false;
 static volatile uint32_t time_ms = 0;
 uint32_t target_clk_divider = 0;
 
-static size_t morse_tick = 0;
 #if defined(PLATFORM_HAS_POWER_SWITCH) && defined(STM32F1)
 static uint8_t monitor_ticks = 0;
 
@@ -48,11 +46,6 @@ static uint8_t monitor_ticks = 0;
 static void usb_config_morse_msg_update(void)
 {
 	if (usb_config_is_updated()) {
-		if (usb_config == 0)
-			morse("NO USB HOST.", true);
-		else
-			morse(NULL, false);
-
 		usb_config_clear_updated();
 	}
 }
@@ -80,15 +73,6 @@ void platform_delay(uint32_t ms)
 void sys_tick_handler(void)
 {
 	time_ms += SYSTICKMS;
-
-	if (morse_tick >= MORSECNT) {
-		if (running_status)
-			gpio_toggle(LED_PORT, LED_IDLE_RUN);
-		usb_config_morse_msg_update();
-		SET_ERROR_STATE(morse_update());
-		morse_tick = 0;
-	} else
-		++morse_tick;
 
 #if defined(PLATFORM_HAS_POWER_SWITCH) && defined(STM32F1)
 	/* First check if target power is presently enabled */
@@ -121,7 +105,6 @@ void sys_tick_handler(void)
 			if (ref > ADC_VREFINT_MAX || ref < ADC_VREFINT_MIN) {
 				/* Something's wrong, so turn tpwr off and set the morse blink pattern */
 				platform_target_set_power(false);
-				morse("TPWR ERROR", true);
 			}
 		} else
 			++monitor_ticks;

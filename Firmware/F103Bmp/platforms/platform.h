@@ -151,8 +151,6 @@ extern bool debug_bmp;
 #define TPWR_PORT   GPIOB
 #define TPWR_PIN    GPIO0
 
-
-
 /* For HW Rev 4 and older */
 #define USB_VBUS_PORT GPIOB
 #define USB_VBUS_PIN  GPIO13

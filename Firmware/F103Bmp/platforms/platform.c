@@ -24,7 +24,6 @@
 #include "platform.h"
 #include "usb.h"
 #include "aux_serial.h"
-#include "morse.h"
 
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/cm3/scb.h>
@@ -61,89 +60,7 @@ extern char vector_table;
  */
 #define BMP_HWVERSION_BYTE FLASH_OPTION_BYTE_2
 
-/*
- * Pins PB[7:5] are used to detect hardware revision.
- * User option byte Data1 is used starting with hardware revision 4.
- * Pin -  OByte - Rev - Description
- * 000 - 0xffff -   0 - Original production build.
- * 001 - 0xffff -   1 - Mini production build.
- * 010 - 0xffff -   2 - Mini V2.0e and later.
- * 011 - 0xffff -   3 - Mini V2.1a and later.
- * 011 - 0xfb04 -   4 - Mini V2.1d and later.
- * xxx - 0xfb05 -   5 - Mini V2.2a and later.
- * xxx - 0xfb06 -   6 - Mini V2.3a and later.
- *
- * This function will return -2 if the version number does not make sense.
- * This can happen when the Data1 byte contains "garbage". For example a
- * hardware revision that is <4 or the high byte is not the binary inverse of
- * the lower byte.
- * Note: The high byte of the Data1 option byte should always be the binary
- * inverse of the lower byte unless the byte is not set, then all bits in both
- * high and low byte are 0xff.
- */
-//int platform_hwversion(void)
-//{
-//	static int hwversion = -1;
-//	uint16_t hwversion_pins = GPIO7 | GPIO6 | GPIO5;
-//	uint16_t unused_pins = hwversion_pins ^ 0xffffU;
-//
-//	/* Check if the hwversion is set in the user option byte. */
-//	if (hwversion == -1) {
-//		if (BMP_HWVERSION_BYTE != 0xffffU && BMP_HWVERSION_BYTE != 0x00ffU) {
-//			/* Check if the data is valid. When valid it should only have values 4 and higher. */
-//			if ((BMP_HWVERSION_BYTE >> 8U) != (~BMP_HWVERSION_BYTE & 0xffU) || (BMP_HWVERSION_BYTE & 0xffU) < 4)
-//				return -2;
-//			hwversion = BMP_HWVERSION_BYTE & 0xffU;
-//		}
-//	}
-//
-//	/* If the hwversion is not set in option bytes check the hw pin strapping. */
-//	if (hwversion == -1) {
-//		/* Configure the hardware version pins as input pull-up/down */
-//		gpio_set_mode(GPIOB, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, hwversion_pins);
-//
-//		/* Enable the weak pull up. */
-//		gpio_set(GPIOB, hwversion_pins);
-//
-//		/* Wait a little to make sure the pull up is in effect... */
-//		for (volatile size_t i = 0; i < 100U; ++i)
-//			continue;
-//
-//		/*
-//		 * Get all pins that are pulled low in hardware.
-//		 * This also sets all the "unused" pins to 1.
-//		 */
-//		uint16_t pins_negative = gpio_get(GPIOB, hwversion_pins) | unused_pins;
-//
-//		/* Enable the weak pull down. */
-//		gpio_clear(GPIOB, hwversion_pins);
-//
-//		/* Wait a little to make sure the pull down is in effect... */
-//		for (volatile size_t i = 0; i < 100U; ++i)
-//			continue;
-//
-//		/* Get all the pins that are pulled high in hardware. */
-//		uint16_t pins_positive = gpio_get(GPIOB, hwversion_pins);
-//
-//		/*
-//		 * The hardware version is the ID defined by the pins that are
-//		 * asserted low or high by the hardware. This means that pins
-//		 * that are left floating are 0 and those that are either
-//		 * pulled high or low are 1.
-//		 *
-//		 * XXX: This currently converts `uint16_t`'s to `int`. It should not do this,
-//		 * it should remain unsigned at all times, but this requires changing how the invalid
-//		 * hardware version should be returned.
-//		 */
-//		hwversion = (((pins_positive ^ pins_negative) ^ 0xffffU) & hwversion_pins) >> 5U;
-//	}
-//
-//	return hwversion;
-//}
-
-void platform_init(void)
-{
-	const int hwversion = 4; //platform_hwversion();
+void platform_init(void) {
 	SCS_DEMCR |= SCS_DEMCR_VC_MON_EN;
 
 	rcc_clock_setup_pll(&rcc_hse_configs[RCC_CLOCK_HSE8_72MHZ]);
@@ -178,34 +95,32 @@ void platform_init(void)
 	gpio_set_mode(PWR_BR_PORT, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, PWR_BR_PIN);
 
 	/* Configure Timer 1 Channel 3N to allow tpwr to be soft start on hw1+ */
-	if (hwversion >= 1) {
-		/* The pin mapping is a secondary mapping for the pin. We need to enable that. */
-		gpio_primary_remap(AFIO_MAPR_SWJ_CFG_FULL_SWJ, AFIO_MAPR_TIM1_REMAP_PARTIAL_REMAP);
-		/*
-		 * Configure Timer 1 to run the the power control pin PWM and switch the timer on
-		 * NB: We don't configure the pin mode here but rather we configure it to the alt-mode and back in
-		 * platform_target_set_power() below due to GD32 errata involving PB2 (AUX serial LED).
-		 * See §3.7.6 of the GD32F103 Compatability Summary for details.
-		 */
-		timer_set_mode(TIM1, TIM_CR1_CKD_CK_INT, TIM_CR1_CMS_EDGE, TIM_CR1_DIR_UP);
-		/* Use PWM mode 1 so that the signal generated is low till it exceeds the set value */
-		timer_set_oc3_mode(TIM1, TIM_OCM_PWM1);
-		/* Mark the output active-low due to how this drives the target pin */
-		timer_set_oc_polarity_low(TIM1, TIM_OC3N);
-		timer_enable_oc_output(TIM1, TIM_OC3N);
-		timer_set_oc_value(TIM1, TIM_OC3, 0);
-		/* Make sure dead-time is switched off as this interferes with the correct waveform generation */
-		timer_set_deadtime(TIM1, 0);
-		/*
-		 * Configure for 64 steps which also makes this output a 562.5kHz PWM signal
-		 * given the lack of prescaling and being a peripheral on APB1 (36MHz)
-		 */
-		timer_set_period(TIM1, TPWR_SOFT_START_STEPS - 1U);
-		timer_enable_break_main_output(TIM1);
-		timer_continuous_mode(TIM1);
-		timer_update_on_overflow(TIM1);
-		timer_enable_counter(TIM1);
-	}
+    /* The pin mapping is a secondary mapping for the pin. We need to enable that. */
+    gpio_primary_remap(AFIO_MAPR_SWJ_CFG_FULL_SWJ, AFIO_MAPR_TIM1_REMAP_PARTIAL_REMAP);
+    /*
+     * Configure Timer 1 to run the the power control pin PWM and switch the timer on
+     * NB: We don't configure the pin mode here but rather we configure it to the alt-mode and back in
+     * platform_target_set_power() below due to GD32 errata involving PB2 (AUX serial LED).
+     * See §3.7.6 of the GD32F103 Compatability Summary for details.
+     */
+    timer_set_mode(TIM1, TIM_CR1_CKD_CK_INT, TIM_CR1_CMS_EDGE, TIM_CR1_DIR_UP);
+    /* Use PWM mode 1 so that the signal generated is low till it exceeds the set value */
+    timer_set_oc3_mode(TIM1, TIM_OCM_PWM1);
+    /* Mark the output active-low due to how this drives the target pin */
+    timer_set_oc_polarity_low(TIM1, TIM_OC3N);
+    timer_enable_oc_output(TIM1, TIM_OC3N);
+    timer_set_oc_value(TIM1, TIM_OC3, 0);
+    /* Make sure dead-time is switched off as this interferes with the correct waveform generation */
+    timer_set_deadtime(TIM1, 0);
+    /*
+     * Configure for 64 steps which also makes this output a 562.5kHz PWM signal
+     * given the lack of prescaling and being a peripheral on APB1 (36MHz)
+     */
+    timer_set_period(TIM1, TPWR_SOFT_START_STEPS - 1U);
+    timer_enable_break_main_output(TIM1);
+    timer_continuous_mode(TIM1);
+    timer_update_on_overflow(TIM1);
+    timer_enable_counter(TIM1);
 
 	adc_init();
 	/* Set up the NVIC vector table for the firmware */

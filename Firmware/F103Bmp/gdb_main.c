@@ -36,7 +36,6 @@
 #include "target_internal.h"
 #include "command.h"
 #include "crc32.h"
-#include "morse.h"
 #ifdef ENABLE_RTT
 #include "rtt.h"
 #endif
@@ -300,10 +299,6 @@ int gdb_main_loop(target_controller_s *tc, char *pbuf, size_t pbuf_size, size_t 
 
 	case '\x04':
 	case 'D': /* GDB 'detach' command. */
-#if PC_HOSTED == 1
-		if (shutdown_bmda)
-			return 0;
-#endif
 		if (cur_target) {
 			SET_RUN_STATE(true);
 			target_detach(cur_target);
@@ -325,8 +320,6 @@ int gdb_main_loop(target_controller_s *tc, char *pbuf, size_t pbuf_size, size_t 
 			target_reset(cur_target);
 		else if (last_target) {
 			cur_target = target_attach(last_target, &gdb_controller);
-			if (cur_target)
-				morse(NULL, false);
 			target_reset(cur_target);
 		}
 		break;
@@ -609,7 +602,6 @@ static void handle_v_packet(char *packet, const size_t plen)
 		/* Attach to remote target processor */
 		cur_target = target_attach_n(addr, &gdb_controller);
 		if (cur_target) {
-			morse(NULL, false);
 			/*
 			 * We don't actually support threads, but GDB 11 and 12 can't work without
 			 * us saying we attached to thread 1.. see the following for the low-down of this:
@@ -675,7 +667,6 @@ static void handle_v_packet(char *packet, const size_t plen)
 			if (cur_target) {
 				target_set_cmdline(cur_target, cmdline);
 				target_reset(cur_target);
-				morse(NULL, false);
 				gdb_putpacketz("T05");
 			} else
 				gdb_putpacketz("E01");
@@ -840,7 +831,6 @@ void gdb_poll_target(void)
 	switch (reason) {
 	case TARGET_HALT_ERROR:
 		gdb_putpacket_f("X%02X", GDB_SIGLOST);
-		morse("TARGET LOST.", true);
 		break;
 	case TARGET_HALT_REQUEST:
 		gdb_putpacket_f("T%02X", GDB_SIGINT);

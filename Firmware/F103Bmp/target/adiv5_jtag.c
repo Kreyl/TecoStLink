@@ -27,7 +27,6 @@
 #include "adiv5.h"
 #include "jtag_scan.h"
 #include "jtagtap.h"
-#include "morse.h"
 
 #define JTAGDP_ACK_OK   0x02U
 #define JTAGDP_ACK_WAIT 0x01U

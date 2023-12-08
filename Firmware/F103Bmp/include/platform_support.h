@@ -30,16 +30,7 @@
 #include "target.h"
 #include "spi_types.h"
 
-#if PC_HOSTED == 1
-void platform_init(int argc, char **argv);
-void platform_pace_poll(void);
-#else
 void platform_init(void);
-
-inline void platform_pace_poll(void)
-{
-}
-#endif
 
 typedef struct platform_timeout platform_timeout_s;
 void platform_timeout_set(platform_timeout_s *target, uint32_t ms);

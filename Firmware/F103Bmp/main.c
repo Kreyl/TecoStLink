@@ -27,7 +27,6 @@
 #include "target.h"
 #include "exception.h"
 #include "gdb_packet.h"
-#include "morse.h"
 #include "command.h"
 #ifdef ENABLE_RTT
 #include "rtt.h"
@@ -54,7 +53,6 @@ static void bmp_poll_loop(void)
 		char c = gdb_if_getchar_to(0);
 		if (c == '\x03' || c == '\x04')
 			target_halt_request(cur_target);
-		platform_pace_poll();
 #ifdef ENABLE_RTT
 		if (rtt_enabled)
 			poll_rtt(cur_target);
@@ -81,7 +79,6 @@ int main(void) {
 			gdb_putpacketz("EFF");
 			target_list_free();
 			gdb_outf("Uncaught exception: %s\n", e.msg);
-			morse("TARGET LOST.", true);
 		}
 	}
 
