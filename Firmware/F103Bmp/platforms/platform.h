@@ -166,44 +166,6 @@ extern bool debug_bmp;
 #define LED_IDLE_RUN  LED_1
 #define LED_ERROR     LED_2
 
-/* OTG Flash HW Rev 5 and newer */
-#define OTG_PORT GPIOB
-#define OTG_CS   GPIO5
-#define OTG_SCLK GPIO13
-#define OTG_COPI GPIO15
-#define OTG_CIPO GPIO14
-
-/* AUX Port HW Rev 5 and newer */
-#define AUX_PORT      GPIOB
-#define AUX_SCLK_PORT AUX_PORT
-#define AUX_COPI_PORT AUX_PORT
-#define AUX_CIPO_PORT AUX_PORT
-#define AUX_FCS_PORT  AUX_PORT
-#define AUX_SDCS_PORT AUX_PORT
-#define AUX_DCS_PORT  AUX_PORT
-#define AUX_DDC_PORT  AUX_PORT
-#define AUX_BTN1_PORT AUX_PORT
-#define AUX_BTN2_PORT AUX_PORT
-#define AUX_SCLK      GPIO13
-#define AUX_COPI      GPIO15
-#define AUX_CIPO      GPIO14
-#define AUX_FCS       GPIO5
-#define AUX_SDCS      GPIO6
-#define AUX_DCS       GPIO6
-#define AUX_DCS6      GPIO7
-#define AUX_DDC       GPIO8
-#define AUX_BTN1      GPIO12
-#define AUX_BTN2      GPIO9
-/* Note that VBat is on PA0, not PB. */
-#define AUX_VBAT_PORT GPIOA
-#define AUX_VBAT      GPIO0
-
-/* SPI bus definitions */
-#define AUX_SPI         SPI2
-#define EXT_SPI         SPI1
-#define EXT_SPI_CS_PORT GPIOA
-#define EXT_SPI_CS      GPIO4
-
 #define SWD_CR       GPIO_CRL(SWDIO_PORT)
 #define SWD_CR_SHIFT (4U << 2U)
 

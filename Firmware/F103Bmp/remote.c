@@ -30,8 +30,6 @@
 #include "gdb_if.h"
 #include "jtagtap.h"
 #include "swd.h"
-#include "spi.h"
-#include "sfdp.h"
 #include "target.h"
 #include "adiv5.h"
 #include "version.h"
@@ -484,120 +482,6 @@ static void remote_packet_process_adiv5(const char *const packet, const size_t p
 	SET_IDLE_STATE(1);
 }
 
-static void remote_spi_respond(const bool result)
-{
-	if (result)
-		/* If the request suceeded, send an OK response */
-		remote_respond(REMOTE_RESP_OK, 0);
-	else
-		/* Otherwise signal that something went wrong with the request */
-		remote_respond(REMOTE_RESP_ERR, REMOTE_ERROR_FAULT);
-}
-
-void remote_packet_process_spi(const char *const packet, const size_t packet_len)
-{
-	/* Our shortest SPI packet is 4 bytes long, check that we have at least that */
-	if (packet_len < 4U) {
-		remote_respond(REMOTE_RESP_PARERR, 0);
-		return;
-	}
-
-	const uint8_t spi_bus = remote_hex_string_to_num(2, packet + 2);
-
-	switch (packet[1]) {
-	/* Bus initialisation/deinitialisation commands */
-	case REMOTE_SPI_BEGIN:
-		remote_spi_respond(platform_spi_init(spi_bus));
-		break;
-	case REMOTE_SPI_END:
-		remote_spi_respond(platform_spi_deinit(spi_bus));
-		break;
-	/* Selects a SPI device to talk with */
-	case REMOTE_SPI_CHIP_SELECT:
-		/* For this command, spi_bus above is actually the device ID + whether to select it */
-		remote_spi_respond(platform_spi_chip_select(spi_bus));
-		break;
-	/* Performs a single byte SPI transfer */
-	case REMOTE_SPI_TRANSFER: {
-		const uint8_t data_in = remote_hex_string_to_num(2, packet + 4);
-		const uint8_t data_out = platform_spi_xfer(spi_bus, data_in);
-		remote_respond(REMOTE_RESP_OK, data_out);
-		break;
-	}
-	/* Perform a complete read cycle with a SPI Flash of up to 256 bytes */
-	case REMOTE_SPI_READ: {
-		/*
-		 * Decode the device to talk to, what command to send, and the addressing
-		 * and length information for that command
-		 */
-		const uint8_t spi_device = remote_hex_string_to_num(2, packet + 4);
-		const uint16_t command = remote_hex_string_to_num(4, packet + 6);
-		const target_addr_t address = remote_hex_string_to_num(6, packet + 10);
-		const size_t length = remote_hex_string_to_num(4, packet + 16);
-		/* Validate the data length isn't overly long */
-		if (length > 256U) {
-			remote_respond(REMOTE_RESP_PARERR, 0);
-			break;
-		}
-		/* Get the aligned packet buffer to reuse for the data read */
-		void *data = gdb_packet_buffer();
-		/* Perform the read cycle */
-		bmp_spi_read(spi_bus, spi_device, command, address, data, length);
-		remote_respond_buf(REMOTE_RESP_OK, data, length);
-		break;
-	}
-	/* Perform a complete write cycle with a SPI Flash of up to 256 bytes */
-	case REMOTE_SPI_WRTIE: {
-		/*
-		 * Decode the device to talk to, what command to send, and the addressing
-		 * and length information for that command
-		 */
-		const uint8_t spi_device = remote_hex_string_to_num(2, packet + 4);
-		const uint16_t command = remote_hex_string_to_num(4, packet + 6);
-		const target_addr_t address = remote_hex_string_to_num(6, packet + 10);
-		const size_t length = remote_hex_string_to_num(4, packet + 16);
-		/* Validate the data length isn't overly long */
-		if (length > 256U) {
-			remote_respond(REMOTE_RESP_PARERR, 0);
-			break;
-		}
-		/* Get the aligned packet buffer to reuse for the data to write */
-		void *data = gdb_packet_buffer();
-		/* And decode the data from the packet into it */
-		unhexify(data, packet + 20U, length);
-		/* Perform the write cycle */
-		bmp_spi_write(spi_bus, spi_device, command, address, data, length);
-		remote_respond(REMOTE_RESP_OK, 0);
-		break;
-	}
-	/* Get the JEDEC device ID for a Flash device */
-	case REMOTE_SPI_CHIP_ID: {
-		/* Decoder the device to talk to */
-		const uint8_t spi_device = remote_hex_string_to_num(2, packet + 4);
-		/* Set up a suitable buffer for and read the JEDEC ID */
-		spi_flash_id_s flash_id;
-		bmp_spi_read(spi_bus, spi_device, SPI_FLASH_CMD_READ_JEDEC_ID, 0, &flash_id, sizeof(flash_id));
-		/* Respond with the ID */
-		remote_respond_buf(REMOTE_RESP_OK, &flash_id, sizeof(flash_id));
-		break;
-	}
-	/* Run a command against a SPI Flash device */
-	case REMOTE_SPI_RUN_COMMAND: {
-		/* Decode the device to talk to, what command to send, and the addressing information for that command */
-		const uint8_t spi_device = remote_hex_string_to_num(2, packet + 4);
-		const uint16_t command = remote_hex_string_to_num(4, packet + 6);
-		const target_addr_t address = remote_hex_string_to_num(6, packet + 10);
-		/* Execute the command and signal success */
-		bmp_spi_run_command(spi_bus, spi_device, command, address);
-		remote_respond(REMOTE_RESP_OK, 0);
-		break;
-	}
-	default:
-		remote_respond(REMOTE_RESP_ERR, REMOTE_ERROR_UNRECOGNISED);
-		break;
-	}
-}
-
 void remote_packet_process(unsigned i, char *packet)
 {
 	switch (packet[0]) {
@@ -628,10 +512,6 @@ void remote_packet_process(unsigned i, char *packet)
 			remote_respond(REMOTE_RESP_ERR, REMOTE_ERROR_EXCEPTION | ((uint64_t)error.type << 8U));
 		break;
 	}
-
-	case REMOTE_SPI_PACKET:
-		remote_packet_process_spi(packet, i);
-		break;
 
 	default: /* Oh dear, unrecognised, return an error */
 		remote_respond(REMOTE_RESP_ERR, REMOTE_ERROR_UNRECOGNISED);

@@ -28,7 +28,6 @@
 #include "stdio_newlib.h"
 #endif
 #include "target.h"
-#include "spi_types.h"
 
 void platform_init(void);
 
@@ -50,11 +49,5 @@ bool platform_target_set_power(bool power);
 void platform_request_boot(void);
 void platform_max_frequency_set(uint32_t frequency);
 uint32_t platform_max_frequency_get(void);
-
-bool platform_spi_init(spi_bus_e bus);
-bool platform_spi_deinit(spi_bus_e bus);
-
-bool platform_spi_chip_select(uint8_t device_select);
-uint8_t platform_spi_xfer(spi_bus_e bus, uint8_t value);
 
 #endif /* INCLUDE_PLATFORM_SUPPORT_H */
