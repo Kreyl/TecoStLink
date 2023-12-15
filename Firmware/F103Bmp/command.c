@@ -37,9 +37,7 @@
 #include "jtagtap.h"
 #include "jtag_scan.h"
 
-#ifdef ENABLE_RTT
 #include "rtt.h"
-#endif
 
 #ifdef PLATFORM_HAS_TRACESWO
 #include "traceswo.h"
@@ -70,9 +68,7 @@ static bool cmd_target_power(target_s *t, int argc, const char **argv);
 static bool cmd_traceswo(target_s *t, int argc, const char **argv);
 #endif
 static bool cmd_heapinfo(target_s *t, int argc, const char **argv);
-#ifdef ENABLE_RTT
 static bool cmd_rtt(target_s *t, int argc, const char **argv);
-#endif
 #if defined(PLATFORM_HAS_DEBUG) && PC_HOSTED == 0
 static bool cmd_debug_bmp(target_s *t, int argc, const char **argv);
 #endif
@@ -97,11 +93,9 @@ const command_s cmd_list[] = {
 #ifdef PLATFORM_HAS_POWER_SWITCH
 	{"tpwr", cmd_target_power, "Supplies power to the target: [enable|disable]"},
 #endif
-#ifdef ENABLE_RTT
 	{"rtt", cmd_rtt,
 		"[enable|disable|status|channel [0..15 ...]|ident [STR]|cblock|ram [RAM_START RAM_END]|poll [MAXMS MINMS "
 		"MAXERR]]"},
-#endif
 #ifdef PLATFORM_HAS_TRACESWO
 #if defined TRACESWO_PROTOCOL && TRACESWO_PROTOCOL == 2
 	{"traceswo", cmd_traceswo, "Start trace capture, NRZ mode: [BAUDRATE] [decode [CHANNEL_NR ...]]"},
@@ -476,7 +470,6 @@ static bool cmd_target_power(target_s *t, int argc, const char **argv)
 }
 #endif
 
-#ifdef ENABLE_RTT
 static const char *on_or_off(const bool value)
 {
 	return value ? "on" : "off";
@@ -562,7 +555,6 @@ static bool cmd_rtt(target_s *t, int argc, const char **argv)
 		gdb_out("what?\n");
 	return true;
 }
-#endif
 
 #ifdef PLATFORM_HAS_TRACESWO
 static bool cmd_traceswo(target_s *t, int argc, const char **argv)

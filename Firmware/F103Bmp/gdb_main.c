@@ -36,9 +36,7 @@
 #include "target_internal.h"
 #include "command.h"
 #include "crc32.h"
-#ifdef ENABLE_RTT
 #include "rtt.h"
-#endif
 
 #if ADVERTISE_NOACKMODE == 1
 /*
@@ -651,10 +649,8 @@ static void handle_v_packet(char *packet, const size_t plen)
 			}
 			break;
 		}
-#ifdef ENABLE_RTT
 		/* force searching rtt control block */
 		rtt_found = false;
-#endif
 		/* Run target program. For us (embedded) this means reset. */
 		if (cur_target) {
 			target_set_cmdline(cur_target, cmdline);

@@ -28,9 +28,7 @@
 #include "exception.h"
 #include "gdb_packet.h"
 #include "command.h"
-#ifdef ENABLE_RTT
 #include "rtt.h"
-#endif
 
 /* This has to be aligned so the remote protocol can re-use it without causing Problems */
 static char pbuf[GDB_PACKET_BUFFER_SIZE + 1U] __attribute__((aligned(8)));
@@ -46,24 +44,17 @@ static void bmp_poll_loop(void)
 	while (gdb_target_running && cur_target) {
 		gdb_poll_target();
 
-		// Check again, as `gdb_poll_target()` may
-		// alter these variables.
-		if (!gdb_target_running || !cur_target)
-			break;
+		// Check again, as `gdb_poll_target()` may alter these variables.
+		if (!gdb_target_running || !cur_target)	break;
 		char c = gdb_if_getchar_to(0);
-		if (c == '\x03' || c == '\x04')
-			target_halt_request(cur_target);
-#ifdef ENABLE_RTT
-		if (rtt_enabled)
-			poll_rtt(cur_target);
-#endif
+		if (c == '\x03' || c == '\x04')	target_halt_request(cur_target);
+		if (rtt_enabled) poll_rtt(cur_target);
 	}
 
 	SET_IDLE_STATE(true);
 	size_t size = gdb_getpacket(pbuf, GDB_PACKET_BUFFER_SIZE);
 	// If port closed and target detached, stay idle
-	if (pbuf[0] != '\x04' || cur_target)
-		SET_IDLE_STATE(false);
+	if (pbuf[0] != '\x04' || cur_target) SET_IDLE_STATE(false);
 	gdb_main(pbuf, GDB_PACKET_BUFFER_SIZE, size);
 }
 

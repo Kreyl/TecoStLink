@@ -312,12 +312,10 @@ static void debug_serial_send_callback(usbd_device *dev, uint8_t ep)
 
 static void debug_serial_receive_callback(usbd_device *dev, uint8_t ep)
 {
-#ifdef ENABLE_RTT
 	if (rtt_enabled) {
 		rtt_serial_receive_callback(dev, ep);
 		return;
 	}
-#endif
 
 	char *const transmit_buffer = aux_serial_current_transmit_buffer() + aux_serial_transmit_buffer_fullness();
 	const uint16_t len = usbd_ep_read_packet(dev, ep, transmit_buffer, CDCACM_PACKET_SIZE);
