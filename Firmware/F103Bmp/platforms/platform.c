@@ -46,20 +46,6 @@ extern char vector_table;
 
 #define TPWR_SOFT_START_STEPS 64U
 
-/*
- * Starting with hardware version 4 we are storing the hardware version in the
- * flash option user Data1 byte.
- * The hardware version 4 was the transition version that had it's hardware
- * pins strapped to 3 but contains version 4 in the Data1 byte.
- * The hardware 4 is backward compatible with V3 but provides the new jumper
- * connecting STRACE target pin to the UART1 pin.
- * Hardware version 5 does not have the physically strapped version encoding
- * any more and the hardware version has to be read out of the option bytes.
- * This means that older firmware versions that don't do the detection won't
- * work on the newer hardware.
- */
-#define BMP_HWVERSION_BYTE FLASH_OPTION_BYTE_2
-
 void platform_init(void) {
 	SCS_DEMCR |= SCS_DEMCR_VC_MON_EN;
 
@@ -77,7 +63,6 @@ void platform_init(void) {
 	gpio_clear(USB_PU_PORT, USB_PU_PIN);
 	gpio_set_mode(USB_PU_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, USB_PU_PIN);
 
-	gpio_set_mode(TMS_DIR_PORT, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, TMS_DIR_PIN);
 	gpio_set_mode(TCK_PORT, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, TCK_PIN);
 	gpio_set_mode(TMS_PORT, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_INPUT_FLOAT, TMS_PIN);
 
@@ -87,9 +72,6 @@ void platform_init(void) {
 	// NRST
 	platform_nrst_set_val(false);
 	gpio_set_mode(NRST_PORT, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, NRST_PIN);
-	// NRST SENSE: input w pull-up
-	gpio_set(NRST_SENSE_PORT, NRST_SENSE_PIN);
-	gpio_set_mode(NRST_SENSE_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, NRST_SENSE_PIN);
 	// PWR EN pin
 	gpio_set(PWR_BR_PORT, PWR_BR_PIN);
 	gpio_set_mode(PWR_BR_PORT, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, PWR_BR_PIN);
@@ -146,7 +128,8 @@ void platform_nrst_set_val(bool assert)
 
 bool platform_nrst_get_val(void)
 {
-    return gpio_get(NRST_SENSE_PORT, NRST_SENSE_PIN) != 0;
+//    return gpio_get(NRST_SENSE_PORT, NRST_SENSE_PIN) != 0;
+    return GPIO_ODR(NRST_PORT) & NRST_PIN;
 }
 
 bool platform_target_get_power(void)

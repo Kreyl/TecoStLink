@@ -104,64 +104,73 @@ extern bool debug_bmp;
  * nRST_SNS is the nRST sense line
  */
 
-/* Hardware definitions */
-#define USB_PU_PORT GPIOA
-#define USB_PU_PIN  GPIO8
-
+// ==== Target ====
+#define NRST_PORT       GPIOA
+#define NRST_PIN        GPIO2
 // Not used currently, but who knows the future
-#define TDI_PORT     GPIOA
-#define TDI_PIN      GPIO3
-#define TMS_DIR_PORT GPIOA
-#define TMS_DIR_PIN  GPIO1
-
+#define TDI_PORT        GPIOA
+#define TDI_PIN         GPIO3
 // This is SWDIO
-#define TMS_PORT     GPIOA
-#define TMS_PIN      GPIO4
-
+#define TMS_PORT        GPIOA
+#define TMS_PIN         GPIO4
 // This is SWCLK
-#define TCK_PORT     GPIOA
-#define TCK_PIN      GPIO5
-
-// This is SWO
-#define TDO_PORT     GPIOA
-#define TDO_PIN      GPIO6
-
+#define TCK_PORT        GPIOA
+#define TCK_PIN         GPIO5
 // SWDIO aliases
-#define SWDIO_DIR_PORT TMS_DIR_PORT
-#define SWDIO_DIR_PIN  TMS_DIR_PIN
 #define SWDIO_PORT     TMS_PORT
 #define SWDIO_PIN      TMS_PIN
 #define SWCLK_PORT     TCK_PORT
 #define SWCLK_PIN      TCK_PIN
+// Dir
+//#define SWDIO_DIR_PORT TMS_DIR_PORT
+//#define SWDIO_DIR_PIN  TMS_DIR_PIN
+//#define TMS_DIR_PORT GPIOA
+//#define TMS_DIR_PIN  GPIO1
+// This is SWO
+#define TDO_PORT        GPIOA // }
+#define TDO_PIN         GPIO6 // } T3C1
+//#define TDO_PORT        GPIOB // }
+//#define TDO_PIN         GPIO7 // }  USART1 RX
+//#define TDO_PORT        GPIOB  // }
+//#define TDO_PIN         GPIO11 // } USART3 RX
 
-#define TRST_PORT       GPIOB
-#define TRST_PIN        GPIO1
-
-#define NRST_PORT       GPIOA
-#define NRST_PIN        GPIO2
-#define NRST_SENSE_PORT GPIOA
-#define NRST_SENSE_PIN  GPIO7
-
-/*
- * These are the control output pin definitions for TPWR.
- * TPWR is sensed via PB0 by sampling ADC1's channel 8.
- */
-#define PWR_BR_PORT GPIOB
-#define PWR_BR_PIN  GPIO1
+// ==== Power control ====
+// TPWR is sensed via PB0 by sampling ADC1's channel 8.
+#define PWR_BR_PORT GPIOB // }
+#define PWR_BR_PIN  GPIO1 // } T3C1N to enable soft pwr-up
 #define TPWR_PORT   GPIOB
 #define TPWR_PIN    GPIO0
 
-/* For HW Rev 4 and older */
-#define USB_VBUS_PORT GPIOB
-#define USB_VBUS_PIN  GPIO13
-/* IRQ stays the same for all hw revisions. */
-#define USB_VBUS_IRQ NVIC_EXTI15_10_IRQ
+// ==== USB ====
+#define USB_PU_PORT     GPIOA
+#define USB_PU_PIN      GPIO8
+// VBUS
+#define USB_VBUS_PORT   GPIOB
+#define USB_VBUS_PIN    GPIO13
+#define USB_VBUS_IRQ    NVIC_EXTI15_10_IRQ
 
+// ==== UART ====
+#define USBUSART1               USART1
+#define USBUSART1_IRQ           NVIC_USART1_IRQ
+#define USBUSART1_ISR(x)        usart1_isr(x)
+#define USBUSART1_DMA_TX_CHAN   DMA_CHANNEL4
+#define USBUSART1_DMA_TX_IRQ    NVIC_DMA1_CHANNEL4_IRQ
+#define USBUSART1_DMA_TX_ISR(x) dma1_channel4_isr(x)
+#define USBUSART1_DMA_RX_CHAN   DMA_CHANNEL5
+#define USBUSART1_DMA_RX_IRQ    NVIC_DMA1_CHANNEL5_IRQ
+#define USBUSART1_DMA_RX_ISR(x) dma1_channel5_isr(x)
+
+//#define TRST_PORT       GPIOB
+//#define TRST_PIN        GPIO1
+
+//#define NRST_SENSE_PORT GPIOA
+//#define NRST_SENSE_PIN  GPIO7
+
+// ==== LEDs ====
 #define LED_PORT      GPIOB
-#define LED_PORT_UART GPIOB
-#define LED_0         GPIO2
-#define LED_1         GPIO10
-#define LED_2         GPIO11
+#define LED_0         GPIO4
+#define LED_1         GPIO5
+#define LED_2         GPIO6
 #define LED_UART      LED_0
 #define LED_IDLE_RUN  LED_1
 #define LED_ERROR     LED_2
@@ -171,7 +180,6 @@ extern bool debug_bmp;
 
 #define TMS_SET_MODE()                                                                       \
 	do {                                                                                     \
-		gpio_set(TMS_DIR_PORT, TMS_DIR_PIN);                                                 \
 		gpio_set_mode(TMS_PORT, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, TMS_PIN); \
 	} while (0)
 
@@ -180,7 +188,6 @@ extern bool debug_bmp;
 		uint32_t cr = SWD_CR;                     \
 		cr &= ~(0xfU << SWD_CR_SHIFT);            \
 		cr |= (0x4U << SWD_CR_SHIFT);             \
-		GPIO_BRR(SWDIO_DIR_PORT) = SWDIO_DIR_PIN; \
 		SWD_CR = cr;                              \
 	} while (0)
 
@@ -189,7 +196,6 @@ extern bool debug_bmp;
 		uint32_t cr = SWD_CR;                      \
 		cr &= ~(0xfU << SWD_CR_SHIFT);             \
 		cr |= (0x1U << SWD_CR_SHIFT);              \
-		GPIO_BSRR(SWDIO_DIR_PORT) = SWDIO_DIR_PIN; \
 		SWD_CR = cr;                               \
 	} while (0)
 
@@ -227,15 +233,7 @@ extern bool debug_bmp;
 #define USBUSART_DMA_TX_IRQ  USBUSART1_DMA_TX_IRQ
 #define USBUSART_DMA_RX_IRQ  USBUSART1_DMA_RX_IRQ
 
-#define USBUSART1               USART1
-#define USBUSART1_IRQ           NVIC_USART1_IRQ
-#define USBUSART1_ISR(x)        usart1_isr(x)
-#define USBUSART1_DMA_TX_CHAN   DMA_CHANNEL4
-#define USBUSART1_DMA_TX_IRQ    NVIC_DMA1_CHANNEL4_IRQ
-#define USBUSART1_DMA_TX_ISR(x) dma1_channel4_isr(x)
-#define USBUSART1_DMA_RX_CHAN   DMA_CHANNEL5
-#define USBUSART1_DMA_RX_IRQ    NVIC_DMA1_CHANNEL5_IRQ
-#define USBUSART1_DMA_RX_ISR(x) dma1_channel5_isr(x)
+
 
 #define TRACE_TIM          TIM3
 #define TRACE_TIM_CLK_EN() rcc_periph_clock_enable(RCC_TIM3)
