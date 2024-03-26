@@ -104,6 +104,10 @@ extern bool debug_bmp;
  * nRST_SNS is the nRST sense line
  */
 
+// Button
+#define BTN_PORT        GPIOB
+#define BTN_PIN         GPIO12
+
 // ==== Target ====
 #define NRST_PORT       GPIOA
 #define NRST_PIN        GPIO2
@@ -121,11 +125,7 @@ extern bool debug_bmp;
 #define SWDIO_PIN      TMS_PIN
 #define SWCLK_PORT     TCK_PORT
 #define SWCLK_PIN      TCK_PIN
-// Dir
-//#define SWDIO_DIR_PORT TMS_DIR_PORT
-//#define SWDIO_DIR_PIN  TMS_DIR_PIN
-//#define TMS_DIR_PORT GPIOA
-//#define TMS_DIR_PIN  GPIO1
+
 // This is SWO
 #define TDO_PORT        GPIOA // }
 #define TDO_PIN         GPIO6 // } T3C1
@@ -159,12 +159,6 @@ extern bool debug_bmp;
 #define USBUSART1_DMA_RX_CHAN   DMA_CHANNEL5
 #define USBUSART1_DMA_RX_IRQ    NVIC_DMA1_CHANNEL5_IRQ
 #define USBUSART1_DMA_RX_ISR(x) dma1_channel5_isr(x)
-
-//#define TRST_PORT       GPIOB
-//#define TRST_PIN        GPIO1
-
-//#define NRST_SENSE_PORT GPIOA
-//#define NRST_SENSE_PIN  GPIO7
 
 // ==== LEDs ====
 #define LED_PORT      GPIOB
@@ -232,7 +226,6 @@ extern bool debug_bmp;
 #define USBUSART_DMA_RX_CHAN USBUSART1_DMA_RX_CHAN
 #define USBUSART_DMA_TX_IRQ  USBUSART1_DMA_TX_IRQ
 #define USBUSART_DMA_RX_IRQ  USBUSART1_DMA_RX_IRQ
-
 
 
 #define TRACE_TIM          TIM3

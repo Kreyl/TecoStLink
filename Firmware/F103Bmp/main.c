@@ -37,23 +37,24 @@ char* gdb_packet_buffer() {
     return pbuf;
 }
 
-static void bmp_poll_loop(void) {
-    SET_IDLE_STATE(false);
-    while(gdb_target_running && cur_target) {
-        gdb_poll_target();
 
-        // Check again, as `gdb_poll_target()` may alter these variables.
-        if(!gdb_target_running || !cur_target) break;
-        char c = gdb_if_getchar_to(0);
-        if(c == '\x03' || c == '\x04') target_halt_request(cur_target);
-        if(rtt_enabled) poll_rtt(cur_target);
+static void TaskButton() {
+    static uint32_t start = 0;
+    static bool btn_was_pressed = false, is_powered = false;
+    uint32_t now = platform_time_ms();
+    if(now - start >= 54UL) {
+        start = now;
+        // Check button
+        bool btn_is_pressed = (gpio_get(BTN_PORT, BTN_PIN) == 0);
+        if(btn_is_pressed && !btn_was_pressed) { // Btn press occured, switch power
+            btn_was_pressed = true;
+            is_powered = !is_powered;
+            platform_target_set_power(is_powered);
+        }
+        else if(!btn_is_pressed && btn_was_pressed) { // Btn release occured
+            btn_was_pressed = false;
+        }
     }
-
-    SET_IDLE_STATE(true);
-    size_t size = gdb_getpacket(pbuf, GDB_PACKET_BUFFER_SIZE);
-    // If port closed and target detached, stay idle
-    if(pbuf[0] != '\x04' || cur_target) SET_IDLE_STATE(false);
-    gdb_main(pbuf, GDB_PACKET_BUFFER_SIZE, size);
 }
 
 int main(void) {
@@ -62,7 +63,23 @@ int main(void) {
     while(true) {
         volatile exception_s e;
         TRY_CATCH(e, EXCEPTION_ALL) {
-            bmp_poll_loop();
+            SET_IDLE_STATE(false);
+            while(gdb_target_running && cur_target) {
+                gdb_poll_target();
+                // Check again, as `gdb_poll_target()` may alter these variables.
+                if(!gdb_target_running || !cur_target) break;
+                char c = gdb_if_getchar_to(0);
+                if(c == '\x03' || c == '\x04') target_halt_request(cur_target);
+                if(rtt_enabled) poll_rtt(cur_target);
+                TaskButton();
+            }
+
+            SET_IDLE_STATE(true);
+            size_t size = gdb_getpacket(pbuf, GDB_PACKET_BUFFER_SIZE);
+            // If port closed and target detached, stay idle
+            if(pbuf[0] != '\x04' || cur_target) SET_IDLE_STATE(false);
+            gdb_main(pbuf, GDB_PACKET_BUFFER_SIZE, size);
+            TaskButton();
         }
         if(e.type) {
             gdb_putpacketz("EFF");

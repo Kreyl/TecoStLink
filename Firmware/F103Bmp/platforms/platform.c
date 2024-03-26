@@ -59,10 +59,16 @@ void platform_init(void) {
 	rcc_periph_clock_enable(RCC_AFIO);
 	rcc_periph_clock_enable(RCC_CRC);
 
-	/* Setup GPIO ports */
+	// ==== Setup GPIO ports ====
+	// USB pull-up is input float
 	gpio_clear(USB_PU_PORT, USB_PU_PIN);
 	gpio_set_mode(USB_PU_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_FLOAT, USB_PU_PIN);
 
+	// Button: input with pull-up
+	gpio_set_mode(BTN_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, BTN_PIN);
+	gpio_set(BTN_PORT, BTN_PIN); // Enable pull-up
+
+	// TCK & TMS
 	gpio_set_mode(TCK_PORT, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_PUSHPULL, TCK_PIN);
 	gpio_set_mode(TMS_PORT, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_INPUT_FLOAT, TMS_PIN);
 
