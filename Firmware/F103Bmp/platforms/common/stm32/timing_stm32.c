@@ -67,7 +67,7 @@ void sys_tick_handler(void)
 {
 	time_ms += SYSTICKMS;
 
-#if defined(PLATFORM_HAS_POWER_SWITCH) && defined(STM32F1)
+#if 0 // defined(PLATFORM_HAS_POWER_SWITCH) && defined(STM32F1)
 	/* First check if target power is presently enabled */
 	if (platform_target_get_power()) {
 		/*

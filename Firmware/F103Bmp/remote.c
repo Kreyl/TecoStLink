@@ -292,7 +292,7 @@ static void remote_packet_process_general(char *packet, const size_t packet_len)
 		break;
 	}
 	case REMOTE_PWR_SET:
-#ifdef PLATFORM_HAS_POWER_SWITCH
+#if 0 // def PLATFORM_HAS_POWER_SWITCH
 		if (packet[2] == '1' && !platform_target_get_power() &&
 			platform_target_voltage_sense() > POWER_CONFLICT_THRESHOLD) {
 			/* want to enable target power, but voltage > 0.5V sensed

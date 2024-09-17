@@ -61,7 +61,7 @@ static bool cmd_halt_timeout(target_s *t, int argc, const char **argv);
 static bool cmd_connect_reset(target_s *t, int argc, const char **argv);
 static bool cmd_reset(target_s *t, int argc, const char **argv);
 static bool cmd_tdi_low_reset(target_s *t, int argc, const char **argv);
-#ifdef PLATFORM_HAS_POWER_SWITCH
+#if 0 //def PLATFORM_HAS_POWER_SWITCH
 static bool cmd_target_power(target_s *t, int argc, const char **argv);
 #endif
 #ifdef PLATFORM_HAS_TRACESWO
@@ -90,7 +90,7 @@ const command_s cmd_list[] = {
 	{"reset", cmd_reset, "Pulse the nRST line - disconnects target: [PULSE_LEN, default 0ms]"},
 	{"tdi_low_reset", cmd_tdi_low_reset,
 		"Pulse nRST with TDI set low to attempt to wake certain targets up (eg LPC82x)"},
-#ifdef PLATFORM_HAS_POWER_SWITCH
+#if 0 // def PLATFORM_HAS_POWER_SWITCH
 	{"tpwr", cmd_target_power, "Supplies power to the target: [enable|disable]"},
 #endif
 	{"rtt", cmd_rtt,
@@ -445,7 +445,7 @@ static bool cmd_tdi_low_reset(target_s *t, int argc, const char **argv)
 	return true;
 }
 
-#ifdef PLATFORM_HAS_POWER_SWITCH
+#if 0 // def PLATFORM_HAS_POWER_SWITCH
 static bool cmd_target_power(target_s *t, int argc, const char **argv)
 {
 	(void)t;
