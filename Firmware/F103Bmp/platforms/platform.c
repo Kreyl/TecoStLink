@@ -150,8 +150,7 @@ static inline void platform_wait_pwm_cycle()
 	timer_clear_flag(TIM1, TIM_SR_UIF);
 }
 
-bool platform_target_set_power(const bool power)
-{
+bool platform_target_set_power(const bool power) {
 	/* If we're on hw1 or newer, and are turning the power on */
 	if (power) {
 		/* Configure the pin to be driven by the timer */
@@ -167,8 +166,6 @@ bool platform_target_set_power(const bool power)
 			platform_wait_pwm_cycle();
 		}
 	}
-	/* Set the pin state */
-	gpio_set_val(PWR_BR_PORT, PWR_BR_PIN, !power);
 	/*
 	 * If we're turning power on and running hw1+, now configure the pin back over to GPIO and
 	 * reset state timer for the next request
@@ -177,6 +174,19 @@ bool platform_target_set_power(const bool power)
         gpio_set_mode(PWR_BR_PORT, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, PWR_BR_PIN);
 		timer_set_oc_value(TIM1, TIM_OC3, 0U);
 	}
+    // Set the pin state: 0 is ON, 1 is OFF (there is P-ch mosfet)
+    gpio_set_val(PWR_BR_PORT, PWR_BR_PIN, !power);
+    // Connect / disconnect UART pins to avoid phantom powering
+    if(power) { // Enable UART pins
+        gpio_set_mode(USBUSART_PORT, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, USBUSART_TX_PIN);
+        gpio_set_mode(USBUSART_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, USBUSART_RX_PIN);
+        gpio_set(USBUSART_PORT, USBUSART_RX_PIN);
+    }
+    else { // Disable UART pins: output with open drain and 1 set
+        gpio_set_mode(USBUSART_PORT, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, USBUSART_TX_PIN);
+        gpio_set_mode(USBUSART_PORT, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_OPENDRAIN, USBUSART_RX_PIN);
+        gpio_set(USBUSART_PORT, USBUSART_RX_PIN | USBUSART_TX_PIN);  // Putting 1 at open-drain makes it hi-z
+    }
 	return true;
 }
 

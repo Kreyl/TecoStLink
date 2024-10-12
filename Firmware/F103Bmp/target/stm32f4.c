@@ -137,8 +137,8 @@ typedef struct stm32f4_priv {
 #define ID_STM32F72X  0x452U
 #define ID_STM32F410  0x458U
 #define ID_STM32F413  0x463U
-//#define ID_GD32F405   0xfa4U // By someone from internet
-#define ID_GD32F405   0x36fU // By readout
+
+#define ID_GD32F405   0x6413U // Real one inside DBGMCU is 0x413: 6 added to distinct with STM32F405.
 #define ID_GD32F450   0x2b3U
 #define ID_GD32F470   0xa2eU
 
@@ -168,7 +168,7 @@ static void stm32f4_add_flash(target_s *const t, const uint32_t addr, const size
 	target_add_flash(t, f);
 }
 
-static char *stm32f4_get_chip_name(const uint32_t device_id)
+static char *GetChipName(const uint32_t device_id)
 {
 	switch (device_id) {
 	case ID_STM32F40X: /* F40XxE/G */
@@ -197,12 +197,12 @@ static char *stm32f4_get_chip_name(const uint32_t device_id)
 		return "STM32F76x";
 	case ID_STM32F72X: /* F72/3xC/E RM0431 */
 		return "STM32F72x";
-	case ID_GD32F405: /* GigaDevice F405 */
-		return "GD32F405";
-	case ID_GD32F450: /* GigaDevice F450 */
-		return "GD32F450";
-	case ID_GD32F470: /* GigaDevice F470 */
-		return "GD32F470";
+	case ID_GD32F405:
+	    return "GD32F405";
+	case ID_GD32F450:
+	    return "GD32F450";
+	case ID_GD32F470:
+	    return "GD32F470";
 	default:
 		return NULL;
 	}
@@ -221,8 +221,7 @@ static uint16_t stm32f4_read_idcode(target_s *const t)
 	return idcode;
 }
 
-bool stm32f4_probe(target_s *t)
-{
+bool stm32f4_probe(target_s *t) {
 	const uint16_t device_id = stm32f4_read_idcode(t);
 	switch (device_id) {
 	case ID_STM32F74X: /* F74x RM0385 Rev.4 */
@@ -241,7 +240,7 @@ bool stm32f4_probe(target_s *t)
 		t->attach = stm32f4_attach;
 		t->detach = stm32f4_detach;
 		t->mass_erase = stm32f4_mass_erase;
-		t->driver = stm32f4_get_chip_name(device_id);
+		t->driver = GetChipName(device_id);
 		t->part_id = device_id;
 		target_add_commands(t, stm32f4_cmd_list, t->driver);
 		return true;
@@ -249,15 +248,15 @@ bool stm32f4_probe(target_s *t)
 	return false;
 }
 
-bool gd32f4_probe(target_s *t)
-{
-	if (t->part_id != ID_GD32F405 && t->part_id != ID_GD32F450 && t->part_id != ID_GD32F470)
-		return false;
+bool gd32f4_probe(target_s *t) {
+    uint16_t device_id = target_mem_read32(t, DBGMCU_IDCODE) & 0xfffU; // Same as STM32F4xx
+    if      (device_id == 0x413U) t->part_id = ID_GD32F405; // 0x413 is real, but it is the same as STM32F405.
+    else if(!(t->part_id == ID_GD32F450 || t->part_id == ID_GD32F470)) return false;
 
 	t->attach = cortexm_attach;
 	t->detach = cortexm_detach;
 	t->mass_erase = stm32f4_mass_erase;
-	t->driver = stm32f4_get_chip_name(t->part_id);
+	t->driver = GetChipName(t->part_id);
 	target_add_commands(t, stm32f4_cmd_list, t->driver);
 
 	target_mem_map_free(t);
