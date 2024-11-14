@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--*************************************-->
-<!--   File    : Teco.fsproj             -->
-<!--   Format  : TopoR Project file      -->
-<!--   Version : 2                       -->
-<!--   Program : TopoR 8 Layer 7.0.18661 -->
-<!--   Date    : Friday, May 29, 2020    -->
-<!--   Time    : 11:05                   -->
-<!--*************************************-->
+<!--*****************************************-->
+<!--   File    : Teco.fsproj                 -->
+<!--   Format  : TopoR Project file          -->
+<!--   Version : 2                           -->
+<!--   Program : TopoR Lite 7.0.18746        -->
+<!--   Date    : Thursday, November 14, 2024 -->
+<!--   Time    : 15:12                       -->
+<!--*****************************************-->
 
 <Project>
    <Version current="2"/>
    <GUID>{C3BAE9F5-6E0D-468D-B1DC-9F0A4F3F829D}</GUID>
    <Documents>
       <Section name="PCB" isExpanded="true">
-         <File path=".\Teco.fsx" isopened="1" dateChange="2020-05-28 23:33:58"/>
+         <File path=".\Teco.fsx" isopened="0" dateChange="2024-11-13 17:51:31"/>
       </Section>
       <Section name="AutoRouting" isExpanded="false"/>
    </Documents>
+   <Import>
+      <Specctra>
+         <Path name="D:\Projects\24.11.13_TecoStLink\Teco.dsn"/>
+      </Specctra>
+   </Import>
 </Project>
