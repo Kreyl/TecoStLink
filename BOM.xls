@@ -1,0 +1,361 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <LastAuthor>Elessar Cuthalion</LastAuthor>
+  <Created>2018-01-18T18:57:57Z</Created>
+  <LastSaved>2024-11-14T09:19:47Z</LastSaved>
+  <Version>11.9999</Version>
+ </DocumentProperties>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>6840</WindowHeight>
+  <WindowWidth>22365</WindowWidth>
+  <WindowTopX>3510</WindowTopX>
+  <WindowTopY>4935</WindowTopY>
+  <RefModeR1C1/>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Arial Cyr" x:CharSet="204"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s21" ss:Name="Гиперссылка">
+   <Font ss:FontName="Arial Cyr" x:CharSet="204" ss:Color="#0000FF"
+    ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s22">
+   <Font ss:FontName="Arial Cyr" x:CharSet="204" x:Family="Swiss"/>
+  </Style>
+  <Style ss:ID="s23">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <Font ss:FontName="Arial Cyr" x:CharSet="204" x:Family="Swiss"/>
+  </Style>
+  <Style ss:ID="s24">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial Cyr" x:CharSet="204" x:Family="Swiss" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s25">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial Cyr" x:CharSet="204" x:Family="Swiss" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="s27">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Arial Cyr" x:CharSet="204" x:Family="Swiss"/>
+  </Style>
+  <Style ss:ID="s28">
+   <Borders/>
+  </Style>
+  <Style ss:ID="s31">
+   <Borders/>
+   <Interior/>
+  </Style>
+  <Style ss:ID="s32">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s33">
+   <Borders/>
+   <Font ss:FontName="Arial Cyr" x:CharSet="204" x:Family="Swiss"/>
+  </Style>
+  <Style ss:ID="s35">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Arial Cyr" x:CharSet="204" x:Family="Swiss"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="s36">
+   <Borders/>
+   <Font ss:FontName="Arial Cyr" x:CharSet="204"/>
+   <Interior/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="BOM">
+  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="29" x:FullColumns="1"
+   x:FullRows="1">
+   <Column ss:AutoFitWidth="0" ss:Width="154.5"/>
+   <Column ss:StyleID="s22" ss:AutoFitWidth="0" ss:Width="159.75"/>
+   <Column ss:StyleID="s23" ss:AutoFitWidth="0" ss:Width="44.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="138.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="125.25"/>
+   <Column ss:StyleID="s22" ss:AutoFitWidth="0" ss:Width="339.75"/>
+   <Row>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Designator</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Manufacturer Part Number</Data></Cell>
+    <Cell ss:StyleID="s25"><Data ss:Type="String">Quantity</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Value</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Case</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Comment</Data></Cell>
+    <Cell ss:StyleID="s24"><Data ss:Type="String">Link</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">C1</Data></Cell>
+    <Cell><Data ss:Type="String">CC0603KRX5R5BB106</Data></Cell>
+    <Cell ss:StyleID="s27"><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">10u</Data></Cell>
+    <Cell><Data ss:Type="String">CAP0603</Data></Cell>
+    <Cell><Data ss:Type="String">any capacitor 0603 EIA case, x5r or x7r isolator</Data></Cell>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">C2</Data></Cell>
+    <Cell ss:StyleID="s32"><Data ss:Type="String">CC0603KRX7R8BB225</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String">2u2</Data></Cell>
+    <Cell><Data ss:Type="String">CAP0603</Data></Cell>
+    <Cell><Data ss:Type="String">any capacitor 0603 EIA case, x5r or x7r isolator</Data></Cell>
+    <Cell ss:StyleID="s22"/>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s22"><Data ss:Type="String">C3-C7, C12</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">CC0603KRX7R9BB104</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="String">0.1u</Data></Cell>
+    <Cell><Data ss:Type="String">CAP0603</Data></Cell>
+    <Cell><Data ss:Type="String">any capacitor 0603 EIA case, x5r or x7r or np0 isolator</Data></Cell>
+    <Cell ss:StyleID="s21"/>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">C8, C9</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">CC0603KRX7R8BB105</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">1u</Data></Cell>
+    <Cell><Data ss:Type="String">CAP0603</Data></Cell>
+    <Cell><Data ss:Type="String">any capacitor 0603 EIA case, x5r or x7r isolator</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">C10, C11</Data></Cell>
+    <Cell><Data ss:Type="String">CC0603JRNPO9BN180</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">18pF</Data></Cell>
+    <Cell><Data ss:Type="String">CAP0603</Data></Cell>
+    <Cell><Data ss:Type="String">any capacitor 0603 EIA case, np0 isolator</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">C13</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">CC0603KRX7R9BB103</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">10n</Data></Cell>
+    <Cell><Data ss:Type="String">CAP0603</Data></Cell>
+    <Cell><Data ss:Type="String">any capacitor 0603 EIA case, x5r or x7r or np0 isolator</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">D1, D2</Data></Cell>
+    <Cell ss:StyleID="s32"><Data ss:Type="String">FYLS-0603PGC </Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">GREEN</Data></Cell>
+    <Cell><Data ss:Type="String">LED0603</Data></Cell>
+    <Cell><Data ss:Type="String">any blue LED 0603 EIA case, 100-180 mcd at If 20 mA and Vf 2.0-2.5V</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">D3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">FYLS-0603UBC</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">BLUE</Data></Cell>
+    <Cell><Data ss:Type="String">LED0603</Data></Cell>
+    <Cell><Data ss:Type="String">any green LED 0603 EIA case, 100-180 mcd at If 20 mA and Vf 2.0-2.5V</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">D4</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">PMEG2020AEA.115</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">PMEG2020</Data></Cell>
+    <Cell><Data ss:Type="String">SOD323</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">D5-D8</Data></Cell>
+    <Cell ss:StyleID="s33"><Data ss:Type="String">PESD3V3S1UB.115</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">PESD3V3</Data></Cell>
+    <Cell><Data ss:Type="String">SOD323</Data></Cell>
+    <Cell ss:StyleID="s33"><Data ss:Type="String">or PESD3V3U1UB.115 or ESD5Z3.3T1G</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">DA1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">LD1117S33TR</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">LD1117S33</Data></Cell>
+    <Cell><Data ss:Type="String">SOT223</Data></Cell>
+    <Cell ss:StyleID="s31"><Data ss:Type="String">or LD1117S33CTR or TLV1117-33IDCYR or LM1117GS-3.3 or AMS1117-3.3</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">DD1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">STM32F103CBT6</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">STM32F103CB</Data></Cell>
+    <Cell><Data ss:Type="String">LQFP48</Data></Cell>
+    <Cell><Data ss:Type="String">or STM32F103CBT6TR</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">L1</Data></Cell>
+    <Cell><Data ss:Type="String">DLW21SN900SQ2L</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="s28"><Data ss:Type="String">DLW21SN900</Data></Cell>
+    <Cell><Data ss:Type="String">DLW21SN</Data></Cell>
+    <Cell><Data ss:Type="String">or DLW21SN900SQ2</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Q1, Q2</Data></Cell>
+    <Cell ss:StyleID="s35"><Data ss:Type="String">BC848C</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">BC848</Data></Cell>
+    <Cell><Data ss:Type="String">SOT23-3</Data></Cell>
+    <Cell><Data ss:Type="String">or BC848B.215</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">Q3</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">IRLML6402</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">IRLML9303</Data></Cell>
+    <Cell><Data ss:Type="String">SOT23-3</Data></Cell>
+    <Cell><Data ss:Type="String">or IRLML6402TR or IRLML6402TRPBF or IRLML9303</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">R1, R3, R12, R13, R17, R22</Data></Cell>
+    <Cell><Data ss:Type="String">RC0603FR-0710KL</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="String">10k</Data></Cell>
+    <Cell><Data ss:Type="String">RES0603</Data></Cell>
+    <Cell><Data ss:Type="String">any resistor 0603 EIA case size 1% tolerance</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">R2</Data></Cell>
+    <Cell><Data ss:Type="String">RC0603FR-072RL</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">2R0</Data></Cell>
+    <Cell><Data ss:Type="String">RES0603</Data></Cell>
+    <Cell><Data ss:Type="String">any resistor 0603 EIA case size 1% tolerance</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">R4</Data></Cell>
+    <Cell><Data ss:Type="String">RC0603FR-071K5L</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">1k5</Data></Cell>
+    <Cell><Data ss:Type="String">RES0603</Data></Cell>
+    <Cell><Data ss:Type="String">any resistor 0603 EIA case size 1% tolerance</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">R5, R6, R18-R21</Data></Cell>
+    <Cell><Data ss:Type="String">RC0603FR-0722RL</Data></Cell>
+    <Cell><Data ss:Type="Number">6</Data></Cell>
+    <Cell><Data ss:Type="String">22R</Data></Cell>
+    <Cell><Data ss:Type="String">RES0603</Data></Cell>
+    <Cell><Data ss:Type="String">any resistor 0603 EIA case size 1% tolerance</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">R7, R14</Data></Cell>
+    <Cell><Data ss:Type="String">RC0603FR-07100KL</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">100k</Data></Cell>
+    <Cell><Data ss:Type="String">RES0603</Data></Cell>
+    <Cell><Data ss:Type="String">any resistor 0603 EIA case size 1% tolerance</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">R8, R9</Data></Cell>
+    <Cell><Data ss:Type="String">RC0603FR-075K1L</Data></Cell>
+    <Cell><Data ss:Type="Number">2</Data></Cell>
+    <Cell><Data ss:Type="String">5.1k</Data></Cell>
+    <Cell><Data ss:Type="String">RES0603</Data></Cell>
+    <Cell><Data ss:Type="String">any resistor 0603 EIA case size 1% tolerance</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">R10, R11, R15, R16</Data></Cell>
+    <Cell><Data ss:Type="String">RC0603FR-071KL</Data></Cell>
+    <Cell><Data ss:Type="Number">4</Data></Cell>
+    <Cell><Data ss:Type="String">1k</Data></Cell>
+    <Cell><Data ss:Type="String">RES0603</Data></Cell>
+    <Cell><Data ss:Type="String">any resistor 0603 EIA case size 1% tolerance</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">R23</Data></Cell>
+    <Cell><Data ss:Type="String">RC0603FR-071ML</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">1M</Data></Cell>
+    <Cell><Data ss:Type="String">RES0603</Data></Cell>
+    <Cell><Data ss:Type="String">any resistor 0603 EIA case size 1% tolerance</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">SW1</Data></Cell>
+    <Cell><Data ss:Type="String">IT-1187U</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">BUTTON</Data></Cell>
+    <Cell><Data ss:Type="String">BTN_4x4_SMD</Data></Cell>
+    <Cell><Data ss:Type="String">or IT-1187-160GM-G (height 1.5mm)</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">VD1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">TPCM1213A-02SR</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">CM1213A−02SR</Data></Cell>
+    <Cell><Data ss:Type="String">SOT143</Data></Cell>
+    <Cell ss:StyleID="s31"><Data ss:Type="String">or CM1213A−02SR or SZCM1213A−02SR or D1213A-02SR-7TCT or PRTR5V0U2X.215</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">XL3</Data></Cell>
+    <Cell ss:StyleID="s32"><Data ss:Type="String">DS1024-1x6R2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">CONN_6</Data></Cell>
+    <Cell><Data ss:Type="String">PBS-6R</Data></Cell>
+    <Cell ss:StyleID="s36"><Data ss:Type="String">or PBS-6R</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">XS1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">USB3.1 TYPE-C 16PF-015</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">USBC 16PF-015</Data></Cell>
+    <Cell><Data ss:Type="String">USB-C_16pin_16PF-015</Data></Cell>
+   </Row>
+   <Row>
+    <Cell><Data ss:Type="String">XTAL1</Data></Cell>
+    <Cell ss:StyleID="Default"><Data ss:Type="String">SMD05032C2</Data></Cell>
+    <Cell><Data ss:Type="Number">1</Data></Cell>
+    <Cell><Data ss:Type="String">8MHz</Data></Cell>
+    <Cell><Data ss:Type="String">0503x4-4</Data></Cell>
+    <Cell><Data ss:Type="String">any 8MHz crystal in a 4pin metal case 5.0mm x 3.2mm, tolerance 10ppm</Data></Cell>
+    <Cell><Data ss:Type="String">https://www.quartz1.com/price/price.php?par1%5B8000%5D=on&amp;par2%5BSMD05032C2%5D=on&amp;par4%5B10%5D=on&amp;group=430&amp;freq1=7000&amp;freq2=8000</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <PageSetup>
+    <PageMargins x:Bottom="0.984251969" x:Left="0.78740157499999996"
+     x:Right="0.78740157499999996" x:Top="0.984251969"/>
+   </PageSetup>
+   <Print>
+    <ValidPrinterInfo/>
+    <PaperSizeIndex>9</PaperSizeIndex>
+    <HorizontalResolution>600</HorizontalResolution>
+    <VerticalResolution>600</VerticalResolution>
+   </Print>
+   <Selected/>
+   <Panes>
+    <Pane>
+     <Number>3</Number>
+     <ActiveRow>3</ActiveRow>
+     <ActiveCol>3</ActiveCol>
+    </Pane>
+   </Panes>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>
