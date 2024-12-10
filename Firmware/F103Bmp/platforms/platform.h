@@ -167,7 +167,7 @@ extern bool debug_bmp;
 #define LED_2         GPIO6
 #define LED_UART      LED_0
 #define LED_IDLE_RUN  LED_1
-#define LED_ERROR     LED_2
+#define LED_UART_EN   LED_2
 
 #define SWD_CR       GPIO_CRL(SWDIO_PORT)
 #define SWD_CR_SHIFT (4U << 2U)

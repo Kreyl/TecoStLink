@@ -29,6 +29,7 @@
 #include "gdb_packet.h"
 #include "command.h"
 #include "rtt.h"
+#include <libopencm3/stm32/usart.h>
 
 /* This has to be aligned so the remote protocol can re-use it without causing Problems */
 static char pbuf[GDB_PACKET_BUFFER_SIZE + 1U] __attribute__((aligned(8)));
@@ -37,10 +38,13 @@ char* gdb_packet_buffer() {
     return pbuf;
 }
 
+typedef enum {kPwrOffUartOff, kPwrOffUartOn, kPwrOnUartOn} PwrAndUartState;
 
 static void TaskButton() {
     static uint32_t start = 0;
-    static bool btn_was_pressed = false, is_powered = false;
+    static bool btn_was_pressed = false;
+    static PwrAndUartState pwr_uart_sta = kPwrOffUartOn;
+
     uint32_t now = platform_time_ms();
     if(now - start >= 54UL) {
         start = now;
@@ -48,8 +52,40 @@ static void TaskButton() {
         bool btn_is_pressed = (gpio_get(BTN_PORT, BTN_PIN) == 0);
         if(btn_is_pressed && !btn_was_pressed) { // Btn press occured, switch power
             btn_was_pressed = true;
-            is_powered = !is_powered;
-            platform_target_set_power(is_powered);
+            switch(pwr_uart_sta) {
+                case kPwrOffUartOff:
+                    pwr_uart_sta = kPwrOffUartOn;
+                    // Power off
+                    platform_target_set_power(false);
+                    // Activate UART
+                    gpio_set_mode(USBUSART_PORT, GPIO_MODE_OUTPUT_50_MHZ, GPIO_CNF_OUTPUT_ALTFN_PUSHPULL, USBUSART_TX_PIN);
+                    gpio_set_mode(USBUSART_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_PULL_UPDOWN, USBUSART_RX_PIN);
+                    gpio_set(USBUSART_PORT, USBUSART_RX_PIN); // Enable Pull-up
+                    aux_serial_drain_receive_buffer();
+                    usart_enable(USBUSART);
+                    // Indicate
+                    gpio_set(LED_PORT, LED_UART_EN);
+                    break;
+
+                case kPwrOffUartOn:
+                    pwr_uart_sta = kPwrOnUartOn;
+                    // Power On
+                    platform_target_set_power(true);
+                    // UART already on, do not touch it
+                    break;
+
+                case kPwrOnUartOn:
+                    pwr_uart_sta = kPwrOffUartOff;
+                    // Power off
+                    platform_target_set_power(false);
+                    // Disable UART
+                    usart_disable(USBUSART);
+                    aux_serial_drain_receive_buffer();
+                    gpio_set_mode(USBUSART_PORT, GPIO_MODE_INPUT, GPIO_CNF_INPUT_ANALOG, USBUSART_TX_PIN | USBUSART_RX_PIN);
+                    // Indicate
+                    gpio_clear(LED_PORT, LED_UART_EN);
+                    break;
+            } // switch
         }
         else if(!btn_is_pressed && btn_was_pressed) { // Btn release occured
             btn_was_pressed = false;
