@@ -95,6 +95,8 @@ static void TaskButton() {
 
 int main(void) {
     platform_init();
+    // Initially? UART is on. Indicate it.
+    gpio_set(LED_PORT, LED_UART_EN);
 
     while(true) {
         volatile exception_s e;
