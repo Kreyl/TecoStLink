@@ -140,7 +140,7 @@ typedef struct stm32f4_priv {
 
 #define ID_GD32F405   0x6413U // Real one inside DBGMCU is 0x413: 6 added to distinct with STM32F405.
 #define ID_GD32F450   0x2b3U
-#define ID_GD32F470   0xa2eU
+#define ID_GD32F470   0x8beU
 
 static void stm32f4_add_flash(target_s *const t, const uint32_t addr, const size_t length, const size_t blocksize,
 	const uint8_t base_sector, const uint8_t split)
