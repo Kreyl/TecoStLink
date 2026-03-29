@@ -175,7 +175,7 @@ struct target {
 	 * Target ID partno if available (>= DPv2)
 	 * fallback to AP partno
 	 */
-	uint16_t part_id;
+	uint32_t part_id;
 
 	bool attached;
 };

@@ -634,6 +634,7 @@ bool cortexm_probe(adiv5_access_port_s *ap)
 	if (conn_reset)
 		target_mem_write32(target, CORTEXM_DEMCR, 0);
 
+	gdb_outf("MCU: ManufID=0x%x; PartID=0x%x\n", target->designer_code, target->part_id);
 	switch (target->designer_code) {
 	case JEP106_MANUFACTURER_FREESCALE:
 		PROBE(imxrt_probe);
