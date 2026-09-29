@@ -1,0 +1,87 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug with ST-Link",
+            "type": "cortex-debug",
+            "cwd": "${workspaceRoot}",
+            "device": "GD32F4xx", // The name of the MCU, which matches the <name> tag at the top of the svd file.
+            "executable": "./Debug/Prj.elf",
+            "request": "launch",
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none",
+            "svdFile": "${workspaceRoot}/GD32F4xx.svd",
+            "armToolchainPath": "C:/YaStudio/arm-none-eabi-gcc/bin/",
+            // "preLaunchTask": "Build Debug",
+            /* Show output variables in hex. To return them back to decimal, use "set output-radix 10" in DEBUG CONSOLE. 
+             Or use watch if form tmp,x for hex (or tmp,h), tmp,d for decimal. */
+            // "preLaunchCommands": [ "set output-radix 16" ], 
+            // Server
+            "servertype": "stlink",
+            "interface": "swd"
+        },
+        {
+            "name": "Debug with BMP",
+            "type": "cortex-debug",
+            "cwd": "${workspaceRoot}",
+            "device": "GD32F4xx", // The name of the MCU, which matches the <name> tag at the top of the svd file.
+            "executable": "./Debug/Prj.elf",
+            "request": "launch",
+            "runToEntryPoint" : "main",
+            "showDevDebugOutput": "none",
+            "svdFile": "${workspaceRoot}/GD32F4xx.svd",
+            "armToolchainPath": "C:/YaStudio/arm-none-eabi-gcc/bin/",
+            // Server
+            "servertype": "bmp",
+            "BMPGDBSerialPort": "COM5",
+            "interface": "swd",
+            // "preLaunchTask": "Build Debug",
+            "preRestartCommands" : [ "load", "enable breakpoint", "monitor reset" ]
+        },
+        {
+            "name": "Debug with OpenOCD STlink",
+            "type": "cortex-debug",
+            "cwd": "${workspaceRoot}",
+            "device": "GD32F4xx", // The name of the MCU, which matches the <name> tag at the top of the svd file.
+            "executable": "./Debug/Prj.elf",
+            "request": "launch",
+            "runToEntryPoint" : "main",
+            "showDevDebugOutput": "none",
+            "svdFile": "${workspaceRoot}/GD32F4xx.svd",
+            "armToolchainPath": "C:/YaStudio/arm-none-eabi-gcc/bin/",
+            // Server
+            "servertype": "openocd",
+            "configFiles": [ 
+                "interface/stlink.cfg", 
+                // "target/stm32f4x.cfg" 
+                "target/gd32f4xx.cfg"
+            ],
+            "interface": "swd"
+            // "preLaunchTask": "Build Debug",
+            // "preRestartCommands" : [ "load", "enable breakpoint", "monitor reset" ]
+
+        },
+        {
+            "name": "Debug with OpenOCD DAPLink",
+            "type": "cortex-debug",
+            "cwd": "${workspaceRoot}",
+            "device": "GD32F4xx", // The name of the MCU, which matches the <name> tag at the top of the svd file.
+            "executable": "./Debug/Prj.elf",
+            "request": "launch",
+            "runToEntryPoint" : "main",
+            "showDevDebugOutput": "none",
+            "svdFile": "${workspaceRoot}/GD32F4xx.svd",
+            "armToolchainPath": "C:/YaStudio/arm-none-eabi-gcc/bin/",
+            // Server
+            "servertype": "openocd",
+            "configFiles": [ 
+                "interface/cmsis-dap.cfg", 
+                "target/stm32f4x.cfg" 
+            ],
+            "interface": "swd"
+            // "preLaunchTask": "Build Debug",
+            // "preRestartCommands" : [ "load", "enable breakpoint", "monitor reset" ]
+
+        }
+    ]
+} 

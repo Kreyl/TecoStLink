@@ -29,6 +29,7 @@
 #include "gdb_packet.h"
 #include "command.h"
 #include "rtt.h"
+#include "aux_serial.h"
 #include <libopencm3/stm32/usart.h>
 
 /* This has to be aligned so the remote protocol can re-use it without causing Problems */

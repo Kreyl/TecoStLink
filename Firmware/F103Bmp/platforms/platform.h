@@ -23,7 +23,7 @@
 #ifndef PLATFORMS_NATIVE_PLATFORM_H
 #define PLATFORMS_NATIVE_PLATFORM_H
 
-#include "gpio.h"
+#include "common/stm32/gpio.h"
 #include "timing.h"
 #include "timing_stm32.h"
 

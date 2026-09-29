@@ -28,7 +28,7 @@ static uint8_t *_heap_end = NULL;
  */
 static void __local_ram(uint8_t **start, uint8_t **end) {
     *start = &_ebss;
-    *end = (uint8_t*) (&_stack - MAX_STACK_SIZE);
+    *end = (uint8_t*) ((uintptr_t)&_stack - MAX_STACK_SIZE);
 }
 
 /* prototype to make gcc happy */

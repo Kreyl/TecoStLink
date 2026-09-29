@@ -22,7 +22,8 @@
 #define INCLUDE_SERIALNO_H
 
 #ifndef DFU_SERIAL_LENGTH
-#define DFU_SERIAL_LENGTH
+/* Full 96-bit STM32 unique ID as hexadecimal, including the terminator. */
+#define DFU_SERIAL_LENGTH 25
 #endif
 
 extern char serial_no[DFU_SERIAL_LENGTH];

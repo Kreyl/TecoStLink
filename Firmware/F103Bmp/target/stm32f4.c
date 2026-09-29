@@ -34,6 +34,7 @@
  */
 
 #include "general.h"
+#include "gdb_packet.h"
 #include "target.h"
 #include "target_internal.h"
 #include "cortexm.h"
@@ -253,7 +254,7 @@ static char *GetGD32ChipName(const uint32_t device_id) {
 
 bool gd32f4_probe(target_s *t) {
     uint32_t device_id = target_mem_read32(t, DBGMCU_IDCODE);
-    gdb_outf("id_code=0x%x\n", device_id);
+    gdb_outf("id_code=0x%" PRIx32 "\n", device_id);
     device_id = (device_id & 0xfffUL) | 0x07510000;
     if(device_id == ID_GD32F405 || device_id == ID_GD32F470) {
         t->attach = cortexm_attach;
@@ -623,8 +624,8 @@ static bool optcr_mask(target_s *const t, uint32_t *const val)
 
 static size_t stm32f4_opt_bytes_for(const uint16_t part_id)
 {
-    if (part_id == ID_GD32F405 || part_id == ID_GD32F470)
-        return 2;
+	if (part_id == ID_GD32F405 || part_id == ID_GD32F470)
+		return 2;
 	if (part_id == ID_STM32F72X)
 		return 3;
 	if (part_id == ID_STM32F42X || part_id == ID_STM32F46X || part_id == ID_STM32F74X || part_id == ID_STM32F76X)

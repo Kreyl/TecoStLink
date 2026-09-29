@@ -1,0 +1,198 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        // ==== Release ====
+        {
+            "label": "Build Release",
+            "type": "shell",
+            "command": "make",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "args": [
+                "build_Release"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": { 
+                "clear": true,
+                "showReuseMessage": false
+            }
+        },
+        {
+            "label": "Clean Release",
+            "type": "shell",
+            "command": "make",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "args": [
+                "clean_Release"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": { 
+                "clear": true,
+                "showReuseMessage": false
+            }
+        },
+        // Flash using BMP
+        {
+            "label": "Flash Release",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "flash_Release"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": { 
+                "clear": true,
+                "showReuseMessage": false
+            }
+        },
+        // Flash using OpenOCD
+        {
+            "label": "Flash Release w OpenOCD",
+            "type": "shell",
+            "command": "openocd",
+            "args": [
+                "-f interface/stlink.cfg", // Configuration file name
+                // "-s " //  dir to search for config files and scripts
+                // Command
+                "-c \"program ${workspaceRoot}/Release/Locket.hex verify reset exit\""
+                // "target/stm32f4x.cfg"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": { 
+                "clear": true,
+                "showReuseMessage": false
+            }
+        },
+        // ==== Debug ====
+        {
+            "label": "Build Debug",
+            "type": "shell",
+            "command": "make",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "args": [
+                "build_Debug"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": { 
+                "clear": true,
+                "showReuseMessage": false
+            }
+        },
+        {
+            "label": "Clean Debug",
+            "type": "shell",
+            "command": "make",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "args": [
+                "clean_Debug"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": { 
+                "clear": true,
+                "showReuseMessage": false
+            }
+        },
+        {
+            "label": "Flash Debug",
+            "type": "shell",
+            "command": "make",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "args": [
+                "flash_Debug"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": { 
+                "clear": true,
+                "showReuseMessage": false
+            }
+        },
+        // ==== FromBoot ====
+        {
+            "label": "Build FromBoot",
+            "type": "shell",
+            "command": "make",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "args": [
+                "build_Fromboot"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": { 
+                "clear": true,
+                "showReuseMessage": false
+            }
+        },
+        {
+            "label": "Clean FromBoot",
+            "type": "shell",
+            "command": "make",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "args": [
+                "clean_Fromboot"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": { 
+                "clear": true,
+                "showReuseMessage": false
+            }
+        },
+        {
+            "label": "Flash FromBoot",
+            "type": "shell",
+            "command": "make",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "args": [
+                "flash_Fromboot"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": { 
+                "clear": true,
+                "showReuseMessage": false
+            }
+        }
+    ]
+}

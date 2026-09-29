@@ -25,4 +25,4 @@ MEMORY
 }
 
 /* Include the common ld script from libopenstm32. */
-INCLUDE ../cortex-m-generic.ld
+INCLUDE cortex-m-generic.ld

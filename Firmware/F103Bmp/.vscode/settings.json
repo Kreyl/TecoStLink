@@ -1,0 +1,178 @@
+{
+    "C_Cpp.default.intelliSenseMode": "gcc-arm",
+    "cortex-debug.gdbPath": "C:/YaStudio/arm-none-eabi-gcc/bin/arm-none-eabi-gdb.exe",
+    "cortex-debug.enableTelemetry": false,
+    "cortex-debug.armToolchainPath": "C:/YaStudio/arm-none-eabi-gcc/bin",
+    "cortex-debug.armToolchainPrefix": "arm-none-eabi",
+    "cortex-debug.openocdPath": "C:/YaStudio/OpenOCD/bin/openocd.exe",
+    "cortex-debug.variableUseNaturalFormat": false, // False is hex, true is decimal
+    "debug.onTaskErrors": "abort",
+    "terminal.integrated.env.windows": {
+        "PATH": "C:/YaStudio/arm-none-eabi-gcc/bin;C:/YaStudio/build-tools;C:/YaStudio/OpenOCD;C:/YaStudio/OpenOCD/bin"
+    },
+    "files.associations": {
+        "random": "cpp",
+        "new": "cpp",
+        "cstddef": "cpp",
+        "cstdint": "cpp",
+        "vector": "cpp",
+        "initializer_list": "cpp",
+        "cmath": "cpp",
+        "memory_resource": "cpp",
+        "string": "cpp",
+        "limits": "cpp",
+        "system_error": "cpp",
+        "array": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "atomic": "cpp",
+        "bit": "cpp",
+        "cctype": "cpp",
+        "clocale": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "cstdarg": "cpp",
+        "cstdio": "cpp",
+        "cstdlib": "cpp",
+        "cstring": "cpp",
+        "cwchar": "cpp",
+        "cwctype": "cpp",
+        "deque": "cpp",
+        "unordered_map": "cpp",
+        "exception": "cpp",
+        "algorithm": "cpp",
+        "iterator": "cpp",
+        "memory": "cpp",
+        "numeric": "cpp",
+        "string_view": "cpp",
+        "iosfwd": "cpp",
+        "numbers": "cpp",
+        "ostream": "cpp",
+        "stdexcept": "cpp",
+        "streambuf": "cpp",
+        "cinttypes": "cpp",
+        "typeinfo": "cpp"
+    },
+    // TODO Highlight
+    "todohighlight.isEnable": true,
+    "todohighlight.enableDiagnostics": false,
+    "todohighlight.isCaseSensitive": true,
+    "todohighlight.keywords": [
+        "FIXME:", // without further details, this will use the defaultStyle
+        "REVIEW:", // as will this
+        // now for a more complex example
+        {
+            "text": "DEBUG",
+            "regex": {
+                "pattern": "\\bDEBUG\\b"
+            },
+            "before": { "contentText": "⚠️" },
+            "after":  { "contentText": "⚠️" },
+            "color": "yellow",
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "border": "1px solid yellow",
+            "isWholeLine": false
+        },
+        {
+            "text": "TODO",
+            "color": "lime",
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "border": "1px solid lime",
+            "isWholeLine": false
+        },
+        {
+            "text": "XXX",
+            "color": "yellow",
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "border": "1px solid yellow",
+            "isWholeLine": true
+        },
+        {
+            "text": "INFO:", // without a defined regex pattern this is the string that will be matched
+            "color": "green",
+            "backgroundColor": "rgba(0,0,0,0)", // INFO: setting the last parameter to zero (alpha channel) disables the background colour
+            "border": "none",
+            "isWholeLine": false
+        },
+        {
+            "text": "WARNING:",
+            "before": {
+                "contentText": "⚠️" // adds text before the highlight
+            },
+            "after": {
+                "contentText": "⚠️" // adds text after the highlight
+            },
+            "color": "red",
+            "border": "1px solid red",
+            "borderRadius": "2px", // NOTE: use borderRadius along with `border` or you will see nothing change
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "diagnosticSeverity": "warning" // Set diagnostic severity to `none`, `information`, `warning` or `error`
+        },
+        {
+            "text": "TODO(string):", // with a regex pattern defined, this setting isn't used, but is useful as a name for this section
+            "regex": {
+                "pattern": "(?<=^|\"|\\s)TODO(\\(\\w+\\))?:" // this allows for TODO: or TODO(Bob): etc.
+            },
+            "color": "red",
+            "border": "1px solid red",
+            "borderRadius": "2px", //NOTE: use borderRadius along with `border` or you will see nothing change
+            "backgroundColor": "rgba(0,0,0,.2)"
+        },
+        {
+            "text": "NOTE:", // with a regex pattern defined, this setting isn't used, but is useful as a name for this section
+            "color": "#ff0000",
+            "backgroundColor": "yellow",
+            "overviewRulerColor": "grey",
+            "regex": {
+                "pattern": "(?<=^|\"|\\s)NOTE[:]?(?!\\w)" // in this example, highlight `NOTE:` with or without the `:` and that's not part of another word.  (I.e.: The above will highlight 'NOTE' but not the "note" in 'SIDENOTE').
+                /**
+                 * Positive lookbehind (`(?<=...)`) is only supported in Node.js v9 and up.
+                 * If your VSCode version is built on an earlier version the example above may not work. Simple tests:
+                        * Shouldn't work: note  deNOTEd  NOTEing
+                        * Should work: NOTE:  "NOTE:"
+                 **/
+            },
+            "isWholeLine": false
+        },
+    ],
+    // "todohighlight.keywordsPattern": "TODO:|FIXME:|\\(([^\\)]+)\\)", //highlight `TODO:`,`FIXME:` or content between parentheses
+    "todohighlight.defaultStyle": {
+        "color": "red",
+        "backgroundColor": "#ffab00",
+        "overviewRulerColor": "#ffab00",
+        "cursor": "pointer",
+        "border": "1px solid #eee",
+        "borderRadius": "2px",
+        "isWholeLine": false,
+        //other styling properties goes here ...
+    },
+    "todohighlight.include": [
+        "**/*.h",
+        "**/*.c",
+        "**/*.cpp",
+        "**/*.S"
+    ],
+    "todohighlight.maxFilesForSearch": 5120,
+    "todohighlight.toggleURI": false,
+    // Task Buttons
+    "VsCodeTaskButtons.showCounter": false,
+    "VsCodeTaskButtons.tasks": [
+        {
+            "label": "🛠️ Build Release",
+            "task": "Build Release",
+            "tooltip": "🛠️ Start the \"build\" task"
+        },
+        {
+            "label": "🧹 Clean Release",
+            "task": "Clean Release",
+            "tooltip": "🧹 Start a \"clean\" task"
+        },
+        {
+            "label": "🔥Flash Release",
+            "task": "Flash Release",
+            "tooltip": "Start the \"flash\" task"
+        }
+    ],
+}
